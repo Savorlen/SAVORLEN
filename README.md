@@ -150,7 +150,7 @@ Test at approximately 320, 360, 390, 768, 1024, and 1440 CSS pixels. Check:
 
 ## Known limitations
 
-- Product detail URLs use a query string (`/products/product.html?slug=...`) and are marked `noindex`. They are excluded from the sitemap. Indexable product pages would require a build step or server-side rendering.
+- Product detail URLs use a query string (`/products/product.html?slug=...`). The static shell is `noindex, follow`; once JavaScript resolves a valid product, the page updates to `index, follow` and sets a product-specific canonical URL. The shell and query URLs are excluded from the sitemap. Fully static per-product URLs would require a build step or server-side rendering.
 - The catalogue and product detail require JavaScript. A no-script fallback explains this and offers contact routes.
 - The site has no analytics, advertising pixels, contact form, user accounts, or online checkout.
 - CMS authentication and publishing cannot be verified until the repository is connected to Netlify and the Identity/Git Gateway settings are configured.

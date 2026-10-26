@@ -13,6 +13,7 @@
   const CURRENCY_LOCALES = {
     INR: "en-IN",
     USD: "en-US",
+    EUR: "en-IE",
     GBP: "en-GB",
     AED: "en-AE"
   };
@@ -191,14 +192,17 @@
     return price;
   }
 
-  function buildStock(product) {
+  function buildStock(product, labelOverride) {
     const status = product.inventory.status;
     const modifier =
       status === "in_stock" ? "in" : status === "out_of_stock" ? "out" : "unknown";
     const badge = el("span", `stock stock--${modifier}`);
     const dot = el("span", "stock__dot");
     dot.setAttribute("aria-hidden", "true");
-    badge.append(dot, document.createTextNode(product.inventory.label));
+    badge.append(
+      dot,
+      document.createTextNode(labelOverride || product.inventory.label)
+    );
     return badge;
   }
 
@@ -615,15 +619,6 @@
     node.href = href;
   }
 
-  function absoluteUrl(path) {
-    if (!path) return `${SITE_URL}/assets/images/og-image.png`;
-    try {
-      return new URL(path, `${SITE_URL}/`).href;
-    } catch (error) {
-      return `${SITE_URL}/assets/images/og-image.png`;
-    }
-  }
-
   function truncate(text, maxLength) {
     if (text.length <= maxLength) return text;
     const cut = text.slice(0, maxLength - 1);
@@ -639,9 +634,7 @@
     const url = `${SITE_URL}/products/product.html?slug=${encodeURIComponent(
       product.slug
     )}`;
-    const image = product.image
-      ? absoluteUrl(product.image)
-      : `${SITE_URL}/assets/images/og-image.png`;
+    const image = `${SITE_URL}/assets/images/og-image.png`;
 
     document.title = title;
     setMeta("name", "description", description);
@@ -652,6 +645,11 @@
     setMeta("property", "og:description", description);
     setMeta("property", "og:url", url);
     setMeta("property", "og:image", image);
+    setMeta(
+      "property",
+      "og:image:alt",
+      "SAVORLEN brand mark on a warm neutral background."
+    );
     setMeta("name", "twitter:title", title);
     setMeta("name", "twitter:description", description);
     setMeta("name", "twitter:image", image);
@@ -744,7 +742,9 @@
     if (product.category) {
       meta.append(metaRow("Category", product.category));
     }
-    meta.append(metaRow("Availability", buildStock(product)));
+    const stockLabel =
+      product.inventory.status === "unknown" ? "Not published" : undefined;
+    meta.append(metaRow("Availability", buildStock(product, stockLabel)));
 
     const price = buildPrice(product);
     if (price) meta.append(metaRow("Price", price));
@@ -781,6 +781,7 @@
     const content = document.querySelector("[data-product-content]");
     const notFound = document.querySelector("[data-product-not-found]");
     const error = document.querySelector("[data-product-error]");
+    const retry = document.querySelector("[data-product-retry]");
     const status = document.querySelector("[data-product-status]");
 
     if (!loading || !content || !notFound || !error) return;
@@ -806,31 +807,37 @@
       return;
     }
 
-    setView("loading");
-    announce("Loading product information.");
+    const loadProduct = () => {
+      setView("loading");
+      announce("Loading product information.");
 
-    fetchProducts()
-      .then((products) => {
-        const product = products.find((item) => item.slug === slug);
+      fetchProducts()
+        .then((products) => {
+          const product = products.find((item) => item.slug === slug);
 
-        if (!product) {
-          setView("notFound");
+          if (!product) {
+            setView("notFound");
+            setNotFoundMeta();
+            announce("Product not found.");
+            return;
+          }
+
+          renderProductDetail(product);
+          setProductMeta(product);
+          setView("content");
+          announce("Product information loaded.");
+        })
+        .catch((fetchError) => {
+          console.error("[SAVORLEN] Failed to load the product.", fetchError);
+          setView("error");
           setNotFoundMeta();
-          announce("Product not found.");
-          return;
-        }
+          announce("Product information could not be loaded.");
+        });
+    };
 
-        renderProductDetail(product);
-        setProductMeta(product);
-        setView("content");
-        announce("Product information loaded.");
-      })
-      .catch((fetchError) => {
-        console.error("[SAVORLEN] Failed to load the product.", fetchError);
-        setView("error");
-        setNotFoundMeta();
-        announce("Product information could not be loaded.");
-      });
+    if (retry) retry.addEventListener("click", loadProduct);
+
+    loadProduct();
   }
 
   const page = document.body.dataset.page;
