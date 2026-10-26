@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Products — SAVORLEN</title>
+  <meta name="description" content="Browse published SAVORLEN packaged food ingredients and spice blends. View product details, availability, and contact options.">
+  <link rel="canonical" href="https://savorlen.com/products/">
+  <meta name="robots" content="index, follow">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#FAF9F4">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; form-action 'self'; frame-src 'none'; img-src 'self' data:; font-src 'self'; style-src 'self'; script-src 'self'; connect-src 'self'; manifest-src 'self'; media-src 'none'; object-src 'none'; worker-src 'none'">
+
+  <meta property="og:site_name" content="SAVORLEN">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Products — SAVORLEN">
+  <meta property="og:description" content="Browse published SAVORLEN packaged food ingredients and spice blends. View product details, availability, and contact options.">
+  <meta property="og:url" content="https://savorlen.com/products/">
+  <meta property="og:image" content="https://savorlen.com/assets/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="SAVORLEN brand mark on a warm neutral background.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Products — SAVORLEN">
+  <meta name="twitter:description" content="Browse published SAVORLEN packaged food ingredients and spice blends.">
+  <meta name="twitter:image" content="https://savorlen.com/assets/images/og-image.png">
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/michroma-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <script src="/assets/js/main.js" defer></script>
+  <script src="/assets/js/navigation.js" defer></script>
+  <script src="/assets/js/products.js" defer></script>
+</head>
+<body data-page="catalogue">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" data-header>
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="SAVORLEN home">
+        <img class="brand__logo" src="/assets/logos/SAVORLEN_FRONT_web.svg" alt="SAVORLEN" width="900" height="356">
+      </a>
+
+      <nav class="primary-nav" aria-label="Primary">
+        <ul class="primary-nav__list">
+          <li><a class="primary-nav__link" href="/">Home</a></li>
+          <li><a class="primary-nav__link" href="/about.html">About</a></li>
+          <li><a class="primary-nav__link" href="/products/" aria-current="page">Products</a></li>
+          <li><a class="primary-nav__link" href="/contact.html">Contact</a></li>
+        </ul>
+      </nav>
+
+      <details class="mobile-nav" data-mobile-nav>
+        <summary class="mobile-nav__toggle">
+          <span class="mobile-nav__label">Menu</span>
+          <span class="mobile-nav__icon" aria-hidden="true"><span></span><span></span><span></span></span>
+        </summary>
+        <div class="mobile-nav__panel">
+          <div class="container mobile-nav__inner">
+            <nav aria-label="Mobile">
+              <ul class="mobile-nav__list">
+                <li><a class="mobile-nav__link" href="/">Home</a></li>
+                <li><a class="mobile-nav__link" href="/about.html">About</a></li>
+                <li><a class="mobile-nav__link" href="/products/" aria-current="page">Products</a></li>
+                <li><a class="mobile-nav__link" href="/contact.html">Contact</a></li>
+              </ul>
+            </nav>
+            <div class="mobile-nav__meta">
+              <a href="mailto:main.savorlen@gmail.com">main.savorlen@gmail.com</a>
+              <a href="tel:+919842498324">+91 98424 98324</a>
+            </div>
+          </div>
+        </div>
+      </details>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-hero" aria-labelledby="products-title">
+      <div class="container page-hero__inner">
+        <div class="stack">
+          <p class="section-label eyebrow">The catalogue</p>
+          <h1 id="products-title">Products</h1>
+        </div>
+        <p class="page-hero__intro">Browse the SAVORLEN range of packaged food ingredients and spice blends. Entries appear here only when they have been published.</p>
+      </div>
+    </section>
+
+    <section class="catalogue" aria-labelledby="catalogue-heading">
+      <div class="container">
+        <h2 class="visually-hidden" id="catalogue-heading">Product catalogue</h2>
+
+        <div class="catalogue-toolbar">
+          <ul class="filter-list" data-filter-list aria-label="Filter products by category" hidden></ul>
+          <p class="results-count" data-results-count></p>
+        </div>
+
+        <p class="visually-hidden" role="status" aria-live="polite" data-catalogue-status></p>
+        <div data-product-grid></div>
+
+        <noscript>
+          <div class="state-panel">
+            <h2 class="state-panel__title">Product listings require JavaScript.</h2>
+            <p class="state-panel__copy">The catalogue is loaded dynamically. Please enable JavaScript, or contact SAVORLEN for current product information.</p>
+            <div class="state-panel__actions btn-group">
+              <a class="btn btn--primary" href="mailto:main.savorlen@gmail.com">Email SAVORLEN</a>
+              <a class="btn btn--secondary" href="tel:+919842498324">Call SAVORLEN</a>
+            </div>
+          </div>
+        </noscript>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img class="footer-brand__logo" src="/assets/logos/SAVORLEN_FRONT_reverse.svg" alt="SAVORLEN" width="900" height="356" loading="lazy">
+          <p>Packaged food ingredients and spice blends.</p>
+        </div>
+        <div>
+          <h2 class="footer-heading">Explore</h2>
+          <ul class="footer-list">
+            <li><a href="/">Home</a></li>
+            <li><a href="/about.html">About</a></li>
+            <li><a href="/products/">Products</a></li>
+            <li><a href="/contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="footer-heading">Information</h2>
+          <ul class="footer-list">
+            <li><a href="/privacy-policy.html">Privacy policy</a></li>
+            <li><a href="/terms.html">Terms of use</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="footer-heading">Contact</h2>
+          <ul class="footer-list footer-list--contact">
+            <li><a href="mailto:main.savorlen@gmail.com">main.savorlen@gmail.com</a></li>
+            <li><a href="tel:+919842498324">+91 98424 98324</a></li>
+            <li><a href="https://wa.me/919842498324" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© <span data-year>2026</span> SAVORLEN. All rights reserved.</p>
+        <p>Packaged food ingredients and spice blends.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

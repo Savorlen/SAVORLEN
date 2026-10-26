@@ -1,0 +1,117 @@
+backend:
+  name: git-gateway
+  branch: main
+
+publish_mode: editorial_workflow
+
+site_url: https://savorlen.com
+logo_url: https://savorlen.com/assets/logos/SAVORLEN_FRONT_web.svg
+
+media_folder: "assets/images/products"
+public_folder: "/assets/images/products"
+
+collections:
+  - name: "products"
+    label: "Products"
+    label_singular: "Product"
+    description: "Manage the entries published in the SAVORLEN catalogue."
+    files:
+      - name: "catalogue"
+        label: "Product catalogue"
+        file: "_data/products.json"
+        description: "Only entries published from here appear on the website. Draft entries remain in the editorial workflow until approved."
+        fields:
+          - label: "Products"
+            name: "products"
+            widget: "list"
+            summary: "{{fields.name}} — {{fields.inventory}}"
+            sortable_fields:
+              - "name"
+              - "category"
+            fields:
+              - label: "Product name"
+                name: "name"
+                widget: "string"
+                required: true
+                hint: "The name shown on the product card and detail page."
+
+              - label: "URL slug"
+                name: "slug"
+                widget: "string"
+                required: true
+                pattern:
+                  - "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+                  - "Use lowercase letters, numbers, and single hyphens only."
+                hint: "Used in the product page address, for example: /products/product.html?slug=example-product"
+
+              - label: "Product image"
+                name: "image"
+                widget: "image"
+                required: false
+                hint: "Optional. If no image is provided, the site shows a branded fallback."
+
+              - label: "Description"
+                name: "description"
+                widget: "text"
+                required: false
+                hint: "Keep this factual. Do not add ingredients, allergens, nutrition, certifications, or health claims unless they have been approved."
+
+              - label: "Price"
+                name: "price"
+                widget: "number"
+                required: false
+                value_type: "float"
+                min: 0
+                step: 0.01
+                hint: "Optional. Leave empty if a price should not be published."
+
+              - label: "Currency"
+                name: "currency"
+                widget: "select"
+                required: false
+                default: "INR"
+                options:
+                  - "INR"
+                  - "USD"
+                  - "EUR"
+                  - "GBP"
+                  - "AED"
+                hint: "Use a three-letter currency code. INR is the provisional default."
+
+              - label: "Original price (optional)"
+                name: "slashed_price"
+                widget: "number"
+                required: false
+                value_type: "float"
+                min: 0
+                step: 0.01
+                hint: "Only shown when a current price exists and this value is higher than it."
+
+              - label: "Inventory status"
+                name: "inventory"
+                widget: "select"
+                required: true
+                default: "out_of_stock"
+                options:
+                  - label: "In stock"
+                    value: "in_stock"
+                  - label: "Out of stock"
+                    value: "out_of_stock"
+                  - label: "Quantity tracked"
+                    value: "quantity"
+                hint: "If you are unsure, choose Out of stock. The site never assumes a product is available."
+
+              - label: "Quantity"
+                name: "quantity"
+                widget: "number"
+                required: false
+                value_type: "int"
+                min: 0
+                step: 1
+                hint: "Internal count only. This number is never shown publicly. Use 0 for out of stock."
+
+              - label: "Category"
+                name: "category"
+                widget: "string"
+                required: false
+                hint: "Optional. Products with the same category share a catalogue filter."

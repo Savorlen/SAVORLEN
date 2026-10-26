@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /_data/
+
+Sitemap: https://savorlen.com/sitemap.xml

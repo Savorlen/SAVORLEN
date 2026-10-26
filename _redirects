@@ -1,0 +1,4 @@
+/Input /404.html 404!
+/Input/* /404.html 404!
+/README.md /404.html 404!
+/products /products/ 301!
