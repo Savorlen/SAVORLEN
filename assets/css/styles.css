@@ -24,6 +24,7 @@
    -------------------------------------------------------------------------- */
 
 :root {
+  color-scheme: light;
   --porcelain: #faf9f4;
   --vanilla: #eeebda;
   --indigo: #282b4a;
@@ -96,6 +97,13 @@ select {
 
 button {
   cursor: pointer;
+}
+
+a,
+button,
+summary {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 a {
@@ -220,8 +228,14 @@ p {
   transition: transform 0.2s var(--ease-out);
 }
 
-.link-arrow:hover span[aria-hidden="true"] {
-  transform: translateX(4px);
+.link-arrow:active span[aria-hidden="true"] {
+  transform: translateX(2px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .link-arrow:hover span[aria-hidden="true"] {
+    transform: translateX(4px);
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -363,7 +377,12 @@ p {
   transition:
     background-color 0.2s ease,
     color 0.2s ease,
-    border-color 0.2s ease;
+    border-color 0.2s ease,
+    transform 0.12s ease-out;
+}
+
+.btn:active {
+  transform: scale(0.97);
 }
 
 .btn--primary {
@@ -426,12 +445,26 @@ p {
   position: sticky;
   top: 0;
   z-index: 60;
-  border-bottom: 1px solid var(--line);
-  background: var(--porcelain);
+  border-bottom: 1px solid rgba(40, 43, 74, 0.08);
+  background: rgba(250, 249, 244, 0.78);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .site-header.is-scrolled {
-  border-bottom-color: var(--line-strong);
+  border-bottom-color: var(--line);
+  box-shadow:
+    0 1px 0 rgba(40, 43, 74, 0.05),
+    0 12px 32px -22px rgba(29, 32, 56, 0.5);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .site-header {
+    background: var(--porcelain);
+  }
 }
 
 .site-header__inner {
@@ -516,6 +549,17 @@ p {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   list-style: none;
+  transition:
+    background-color 0.18s ease,
+    transform 0.1s ease-out;
+}
+
+.mobile-nav__toggle:hover {
+  background: rgba(40, 43, 74, 0.04);
+}
+
+.mobile-nav__toggle:active {
+  transform: scale(0.97);
 }
 
 .mobile-nav__toggle::-webkit-details-marker {
@@ -564,13 +608,48 @@ p {
   left: 0;
   max-height: calc(100dvh - var(--header-height));
   overflow-y: auto;
+  overscroll-behavior: contain;
   border-bottom: 1px solid var(--line-strong);
   background: var(--porcelain);
-  box-shadow: 0 18px 30px rgba(40, 43, 74, 0.08);
+  box-shadow: 0 24px 48px -24px rgba(29, 32, 56, 0.45);
+  transform-origin: top center;
+  will-change: opacity, transform;
 }
 
-.mobile-nav[open] .mobile-nav__panel {
-  animation: menu-in 0.22s var(--ease-out) both;
+.mobile-nav-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: rgba(29, 32, 56, 0.32);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  cursor: default;
+  -webkit-appearance: none;
+  appearance: none;
+  transition:
+    opacity 0.2s ease,
+    visibility 0s linear 0.2s;
+}
+
+body.nav-open .mobile-nav-scrim {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 0.2s ease;
+}
+
+@media (min-width: 901px) {
+  .mobile-nav-scrim {
+    display: none;
+  }
 }
 
 .mobile-nav__inner {
@@ -623,17 +702,6 @@ p {
   align-items: center;
   text-decoration: underline;
   text-underline-offset: 0.2em;
-}
-
-@keyframes menu-in {
-  from {
-    opacity: 0;
-    transform: translateY(-6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 /* --------------------------------------------------------------------------
@@ -861,7 +929,19 @@ p {
    -------------------------------------------------------------------------- */
 
 .contact-band {
-  padding-block: clamp(3rem, 7vw, 5.5rem);
+  position: relative;
+  padding-block: clamp(3.25rem, 7.5vw, 6rem);
+  background: var(--indigo-deep);
+}
+
+.contact-band::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: clamp(64px, 14vw, 180px);
+  height: 2px;
+  background: var(--terracotta);
 }
 
 .contact-band__grid {
@@ -919,12 +999,17 @@ p {
   text-decoration: none;
   transition:
     background-color 0.2s ease,
-    border-color 0.2s ease;
+    border-color 0.2s ease,
+    transform 0.12s ease-out;
 }
 
 .contact-card:hover {
   border-color: var(--indigo);
   background: #f4f1e5;
+}
+
+.contact-card:active {
+  transform: scale(0.992);
 }
 
 .contact-card__icon {
@@ -1010,11 +1095,16 @@ p {
   transition:
     background-color 0.18s ease,
     color 0.18s ease,
-    border-color 0.18s ease;
+    border-color 0.18s ease,
+    transform 0.12s ease-out;
 }
 
 .filter-chip:hover {
   border-color: var(--indigo);
+}
+
+.filter-chip:active {
+  transform: scale(0.97);
 }
 
 .filter-chip[aria-pressed="true"] {
@@ -1041,11 +1131,24 @@ p {
   overflow: hidden;
   border: 1px solid var(--line);
   background: var(--vanilla);
+  transition:
+    transform 0.18s var(--ease-out),
+    box-shadow 0.18s var(--ease-out);
 }
 
 .product-card:focus-within {
   outline: 2px solid var(--indigo);
   outline-offset: 3px;
+}
+
+.product-card:has(.product-card__link:active) {
+  transform: scale(0.995);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .product-card:hover {
+    box-shadow: 0 18px 40px -28px rgba(29, 32, 56, 0.45);
+  }
 }
 
 .product-card__media {
@@ -1063,8 +1166,10 @@ p {
   transition: transform 0.35s var(--ease-out);
 }
 
-.product-card:hover .product-card__media img {
-  transform: scale(1.035);
+@media (hover: hover) and (pointer: fine) {
+  .product-card:hover .product-card__media img {
+    transform: scale(1.035);
+  }
 }
 
 .product-card__media--fallback {
@@ -1766,6 +1871,7 @@ p {
 
 .site-footer {
   padding-block: clamp(3rem, 6vw, 5rem) 2rem;
+  border-top: 1px solid rgba(250, 249, 244, 0.12);
   background: var(--indigo);
   color: var(--porcelain);
   --focus: var(--porcelain);
@@ -1839,6 +1945,25 @@ p {
 
 .footer-bottom p {
   margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Material fallbacks
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-transparency: reduce) {
+  .site-header,
+  .mobile-nav__panel {
+    background: var(--porcelain);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  .mobile-nav-scrim {
+    background: rgba(29, 32, 56, 0.5);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -1933,6 +2058,10 @@ p {
 @media (max-width: 900px) {
   :root {
     --header-height: 64px;
+  }
+
+  body.nav-open {
+    overflow: hidden;
   }
 
   .primary-nav {
